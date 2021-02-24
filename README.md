@@ -1,7 +1,7 @@
 # ColorChat-Spigot
 Lets you add abit of color to your Minecraft Chat!
 
-![Help Page](https://i.imgur.com/mUQGEYu.png)
+![Help Page](https://i.imgur.com/BLg9nMs.png)
 
 ![Useage](https://i.imgur.com/CEq2rSH.png)
 
