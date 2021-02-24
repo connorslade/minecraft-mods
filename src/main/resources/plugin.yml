@@ -1,0 +1,12 @@
+name: NoseBot
+version: ${project.version}
+main: com.connorcode.nosebot.Main
+api-version: 1.16
+prefix: NOSEBOT
+authors: [ Sigma76 ]
+description: NoseBot!!!
+website: connorcode.com
+commands:
+  nose:
+    description: Sends you a NOSE!!!
+    usage: /nose
