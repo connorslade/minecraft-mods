@@ -12,16 +12,19 @@ import java.util.Arrays;
 public class Chat implements Listener {
 
     String[] codes = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", /*Modifiers*/ "k", "l", "m", "n", "o"};
+    String colorCodeChar = "&";
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent e) {
         String playerName = e.getPlayer().getDisplayName();
         String Message = e.getMessage();
 
-        if (Message.startsWith(":") && Arrays.asList(codes).contains(String.valueOf(Message.charAt(1)))) {
+        if (Message.contains(colorCodeChar)){
             e.setCancelled(true);
-            Common.globalChatMessage(String.format("<%s> §%s%s", e.getPlayer().getDisplayName(), Message.charAt(1), Message.substring(2)));
-        } else if (Message.startsWith(">")) {
+            Message = Message.replace(colorCodeChar, "§");
+            Common.globalPlayerChatMessahe(playerName, Message);
+        }
+        else if (Message.startsWith(">")) {
             e.setCancelled(true);
             Common.globalChatMessage(String.format("<%s> %s%s", playerName, ChatColor.GREEN, Message));
         }
@@ -36,13 +39,13 @@ public class Chat implements Listener {
             e.setCancelled(true);
             StringBuilder working = new StringBuilder();
             for (String code : codes) {
-                working.append(String.format("§%s:%s§f | ", code, code));
+                working.append(String.format("§%s&%s§f | ", code, code));
             }
             player.sendMessage("§e--------- §fColor Chat §e---------------------------------");
             player.sendMessage(String.valueOf(working).substring(0, working.length() - 3));
             player.sendMessage("");
-            player.sendMessage(":aHello");
-            player.sendMessage("<Steve> §aHello");
+            player.sendMessage("> &4H&6E&eL&2L&3O");
+            player.sendMessage("<Steve> §4H§6E§eL§2L§3O");
             player.sendMessage("§e-----------------------------------------------------");
         }
     }
