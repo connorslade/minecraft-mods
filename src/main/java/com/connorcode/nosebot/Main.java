@@ -1,13 +1,15 @@
 package com.connorcode.nosebot;
 
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        System.out.println("[*] Starting NoseBot! - By Sigma76");
-        System.out.println(" └── https://github.com/Basicprogrammer10");
+        getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "[*] Starting NoseBot! - By Sigma76");
+        getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "    https://github.com/Basicprogrammer10/NoseBot-Spigot");
         getServer().getPluginManager().registerEvents(new ChatEvent(), this);
     }
 
