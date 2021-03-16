@@ -78,13 +78,11 @@ public final class Main extends JavaPlugin {
                     return true;
                 }
                 if (getConfig().getBoolean("IsSpawn")) {
-                    taskID.put(player.getUniqueId(), getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
-                        public void run() {
-                            tpHistory.put(player.getUniqueId(), new Location(player.getWorld(), player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), player.getLocation().getYaw(), player.getLocation().getPitch()));
-                            player.teleport(new Location(getServer().getWorld(Objects.requireNonNull(getConfig().getString("World"))), getConfig().getDouble("X"), getConfig().getDouble("Y"), getConfig().getDouble("Z"), getConfig().getInt("Yaw"), getConfig().getInt("Pitch")));
-                            player.sendMessage(ChatColor.GREEN + "[*]" + ChatColor.LIGHT_PURPLE + " Welcome to Spawn " + ChatColor.LIGHT_PURPLE + player.getName() + "!");
-                            taskID.remove(player.getUniqueId());
-                        }
+                    taskID.put(player.getUniqueId(), getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
+                        tpHistory.put(player.getUniqueId(), new Location(player.getWorld(), player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), player.getLocation().getYaw(), player.getLocation().getPitch()));
+                        player.teleport(new Location(getServer().getWorld(Objects.requireNonNull(getConfig().getString("World"))), getConfig().getDouble("X"), getConfig().getDouble("Y"), getConfig().getDouble("Z"), getConfig().getInt("Yaw"), getConfig().getInt("Pitch")));
+                        player.sendMessage(ChatColor.GREEN + "[*]" + ChatColor.LIGHT_PURPLE + " Welcome to Spawn " + ChatColor.LIGHT_PURPLE + player.getName() + "!");
+                        taskID.remove(player.getUniqueId());
                     }, 100L));
 
                     getServer().dispatchCommand(getServer().getConsoleSender(), "tellraw " + player.getName() + " [{\"text\":\"[*]\",\"color\":\"green\"},{\"text\":\" You will teleport in 5 seconds.\",\"color\":\"green\"},{\"text\":\" \"},{\"text\":\"[CANCEL]\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/spawn cancel\"}}]");
@@ -92,12 +90,10 @@ public final class Main extends JavaPlugin {
                 }
             }
             if (cmd.getName().equalsIgnoreCase("back")){
-                taskID.put(player.getUniqueId(), getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
-                    public void run() {
-                        player.teleport(tpHistory.get(player.getUniqueId()));
-                        player.sendMessage(ChatColor.GREEN + "[*]" + ChatColor.LIGHT_PURPLE + " Welcome to Spawn " + ChatColor.LIGHT_PURPLE + player.getName() + "!");
-                        tpHistory.remove(player.getUniqueId());
-                    }
+                taskID.put(player.getUniqueId(), getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
+                    player.teleport(tpHistory.get(player.getUniqueId()));
+                    player.sendMessage(ChatColor.GREEN + "[*]" + ChatColor.LIGHT_PURPLE + " Welcome to Spawn " + ChatColor.LIGHT_PURPLE + player.getName() + "!");
+                    tpHistory.remove(player.getUniqueId());
                 }, 100L));
 
                 getServer().dispatchCommand(getServer().getConsoleSender(), "tellraw " + player.getName() + " [{\"text\":\"[*]\",\"color\":\"green\"},{\"text\":\" You will teleport in 5 seconds.\",\"color\":\"green\"},{\"text\":\" \"},{\"text\":\"[CANCEL]\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/spawn cancel\"}}]");
