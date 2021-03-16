@@ -1,0 +1,12 @@
+name: Lag
+version: ${project.version}
+main: com.connorcode.lag.Main
+api-version: 1.16
+prefix: Lag
+authors: [ Sigma76 ]
+description: Nice way to show server TPS
+website: https://connorcode.com
+commands:
+  lag:
+    description: Shows TPS
+    usage: /lag
