@@ -16,3 +16,6 @@ commands:
   setspawn:
     description: Set the Worlds Spawn!
     usage: /setspawn
+  settemp:
+    description: Sets a Temp loacation to /back to
+    usage: /back

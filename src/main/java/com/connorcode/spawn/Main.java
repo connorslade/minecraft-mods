@@ -60,6 +60,10 @@ public final class Main extends JavaPlugin {
                 reloadConfig();
                 player.sendMessage(ChatColor.GREEN + "[*]" + ChatColor.LIGHT_PURPLE + " Spawn Set To " + ChatColor.BLUE + Math.round(player.getLocation().getX()) + ", " + Math.round(player.getLocation().getY()) + ", " + Math.round(player.getLocation().getZ()));
             }
+            if (cmd.getName().equalsIgnoreCase("settemp")){
+                tpHistory.put(player.getUniqueId(), new Location(player.getWorld(), player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), player.getLocation().getYaw(), player.getLocation().getPitch()));
+                player.sendMessage(ChatColor.GREEN + "[*]" + ChatColor.LIGHT_PURPLE + " Temp Location Set To " + ChatColor.BLUE + Math.round(player.getLocation().getX()) + ", " + Math.round(player.getLocation().getY()) + ", " + Math.round(player.getLocation().getZ()));
+            }
             if (cmd.getName().equalsIgnoreCase("spawn")) {
                 if (!getConfig().getBoolean("IsSpawn")) {
                     player.sendMessage(ChatColor.GREEN + "[*]" + ChatColor.LIGHT_PURPLE + " Spawn has not been setup. Use /setspawn");
@@ -92,7 +96,7 @@ public final class Main extends JavaPlugin {
             if (cmd.getName().equalsIgnoreCase("back")){
                 taskID.put(player.getUniqueId(), getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
                     player.teleport(tpHistory.get(player.getUniqueId()));
-                    player.sendMessage(ChatColor.GREEN + "[*]" + ChatColor.LIGHT_PURPLE + " Welcome to Spawn " + ChatColor.LIGHT_PURPLE + player.getName() + "!");
+                    player.sendMessage(ChatColor.GREEN + "[*]" + ChatColor.LIGHT_PURPLE + " Welcome to Back " + ChatColor.LIGHT_PURPLE + player.getName() + "!");
                     tpHistory.remove(player.getUniqueId());
                 }, 100L));
 
