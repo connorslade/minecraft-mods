@@ -1,0 +1,15 @@
+name: Spawn
+version: ${project.version}
+main: com.connorcode.spawn.Main
+api-version: 1.16
+prefix: Spawn
+authors: [ Sigma76 ]
+description: Adds /spawn to goto the set spawn point
+website: https://github.com/Basicprogrammer10/Spawn-Plugin
+commands:
+  spawn:
+    description: Brings you to spawn!
+    usage: /spawn
+  setspawn:
+    description: Set the Worlds Spawn!
+    usage: /setspawn
