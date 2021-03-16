@@ -62,9 +62,9 @@ Its a maven project figure it out yourself.
 ### Installation
 
 1. Download the newest version of the plugin from [Releases](https://github.com/Basicprogrammer10/Spawn-Plugin/releases)
-2. Add it to your plugins for yor Bukkit / Spigot / Papaer etc. server
+2. Add it to your plugins for your Bukkit / Spigot / Paper etc. server
 3. Restart or run `/reload` to load the plugin
-4. Check out Useage <a href="#usage">here</a>
+4. Check out Usage <a href="#usage">here</a>
 <!-- CONTRIBUTING -->
 ## Contributing
 
@@ -83,9 +83,11 @@ Distributed under the GNU General Public License v3.0. See [`LICENSE`](https://g
 
 ## Usage
 
-1. Follow instructions at Instlation to install
+1. Follow instructions at installation to install
 2. Use `/setspawn` to define your worlds spawn point (needs op)
-3. Use `/spawn` to be teleported back!
+3. Use `/spawn` to be teleported to spawn!
+4. Use `/back` to go where you ran /spawn
+5. Use `/settemp` to define a location to /back to
 
 
 <!-- CONTACT -->
@@ -96,3 +98,4 @@ Discord - `Sigma#8214`
 Email - `connor@connorcode.com`
 
 Project Link: [`https://github.com/Basicprogrammer10/Spawn-Plugin`](https://github.com/Basicprogrammer10/Spawn-Plugin)
+
