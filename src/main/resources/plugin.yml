@@ -7,6 +7,9 @@ authors: [ Sigma76 ]
 description: Adds /spawn to goto the set spawn point
 website: https://github.com/Basicprogrammer10/Spawn-Plugin
 commands:
+  back:
+    description: Goes back to whare you ran /spawn from
+    usage: /back
   spawn:
     description: Brings you to spawn!
     usage: /spawn

@@ -3,6 +3,8 @@ package com.connorcode.spawn;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.UUID;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -15,7 +17,8 @@ import org.jetbrains.annotations.NotNull;
 public final class Main extends JavaPlugin {
     public static World worldSpawn;
 
-    public HashMap<String, Integer> taskID = new HashMap<>();
+    public HashMap<UUID, Integer> taskID = new HashMap<>();
+    public HashMap<UUID, Location> tpHistory = new HashMap<>();
 
     File config = new File(getDataFolder() + File.separator + "config.yml");
 
@@ -65,21 +68,40 @@ public final class Main extends JavaPlugin {
                 if (args.length > 0) {
                     if (!args[0].equalsIgnoreCase("cancel"))
                         return true;
-                    getServer().dispatchCommand((CommandSender)getServer().getConsoleSender(), "tellraw " + player.getName() + " [{\"text\":\"[*]\",\"color\":\"green\"},{\"text\":\" Request Cancelled\",\"color\":\"red\"},{\"text\":\" \"},{\"text\":\"[TO SPAWN]\",\"color\":\"blue\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/spawn\"}}]");
-                    getServer().getScheduler().cancelTask((Integer) taskID.get(player.getName()));
+                    try{
+                        getServer().getScheduler().cancelTask(taskID.get(player.getUniqueId()));
+                        getServer().dispatchCommand(getServer().getConsoleSender(), "tellraw " + player.getName() + " [{\"text\":\"[*]\",\"color\":\"green\"},{\"text\":\" Request Cancelled\",\"color\":\"red\"},{\"text\":\" \"},{\"text\":\"[TO SPAWN]\",\"color\":\"blue\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/spawn\"}}]");
+                        return true;
+                    } catch (Exception e) {
+                        getServer().dispatchCommand(getServer().getConsoleSender(), "tellraw " + player.getName() + " [{\"text\":\"[*]\",\"color\":\"green\"},{\"text\":\" No Request Pending\",\"color\":\"red\"}]");
+                    }
                     return true;
                 }
                 if (getConfig().getBoolean("IsSpawn")) {
-                    taskID.put(player.getName(), getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+                    taskID.put(player.getUniqueId(), getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
                         public void run() {
-                            player.teleport(new Location(getServer().getWorld(Objects.<String>requireNonNull(getConfig().getString("World"))), getConfig().getDouble("X"), getConfig().getDouble("Y"), getConfig().getDouble("Z"), getConfig().getInt("Yaw"), getConfig().getInt("Pitch")));
+                            tpHistory.put(player.getUniqueId(), new Location(player.getWorld(), player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), player.getLocation().getYaw(), player.getLocation().getPitch()));
+                            player.teleport(new Location(getServer().getWorld(Objects.requireNonNull(getConfig().getString("World"))), getConfig().getDouble("X"), getConfig().getDouble("Y"), getConfig().getDouble("Z"), getConfig().getInt("Yaw"), getConfig().getInt("Pitch")));
                             player.sendMessage(ChatColor.GREEN + "[*]" + ChatColor.LIGHT_PURPLE + " Welcome to Spawn " + ChatColor.LIGHT_PURPLE + player.getName() + "!");
+                            taskID.remove(player.getUniqueId());
                         }
                     }, 100L));
 
-                    getServer().dispatchCommand((CommandSender)getServer().getConsoleSender(), "tellraw " + player.getName() + " [{\"text\":\"[*]\",\"color\":\"green\"},{\"text\":\" You will teleport in 5 seconds.\",\"color\":\"green\"},{\"text\":\" \"},{\"text\":\"[CANCEL]\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/spawn cancel\"}}]");
+                    getServer().dispatchCommand(getServer().getConsoleSender(), "tellraw " + player.getName() + " [{\"text\":\"[*]\",\"color\":\"green\"},{\"text\":\" You will teleport in 5 seconds.\",\"color\":\"green\"},{\"text\":\" \"},{\"text\":\"[CANCEL]\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/spawn cancel\"}}]");
                     return true;
                 }
+            }
+            if (cmd.getName().equalsIgnoreCase("back")){
+                taskID.put(player.getUniqueId(), getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+                    public void run() {
+                        player.teleport(tpHistory.get(player.getUniqueId()));
+                        player.sendMessage(ChatColor.GREEN + "[*]" + ChatColor.LIGHT_PURPLE + " Welcome to Spawn " + ChatColor.LIGHT_PURPLE + player.getName() + "!");
+                        tpHistory.remove(player.getUniqueId());
+                    }
+                }, 100L));
+
+                getServer().dispatchCommand(getServer().getConsoleSender(), "tellraw " + player.getName() + " [{\"text\":\"[*]\",\"color\":\"green\"},{\"text\":\" You will teleport in 5 seconds.\",\"color\":\"green\"},{\"text\":\" \"},{\"text\":\"[CANCEL]\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/spawn cancel\"}}]");
+                return true;
             }
         }
         return true;
