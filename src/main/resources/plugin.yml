@@ -1,0 +1,74 @@
+name: Anti_mad
+version: ${project.version}
+main: com.connorcode.anti_mad.Main
+api-version: 1.16
+prefix: Anti Mad
+load: STARTUP
+authors: [ Sigma76 ]
+description: You need to calm down...
+website: connorcode.com
+commands:
+  task:
+    description: Fancy command for stuff..?
+    usage: dont
+  xp:
+    description: Adds or removes player experience.
+    usage: /xp (add | set) <Number> (Levels | Points)
+  weather:
+    description: Sets the weather.
+    usage: /weather (clear|rain|thunder)
+  tp:
+    description: Teleports entities.
+    usage: /tp <player>
+  time:
+    description: Changes or queries the world's game time.
+    usage: /time (Day | Noon | Night)
+  stop:
+    description: Stops server
+    usage: /stop
+#  summon:
+#    description: Summons an entity.
+  seed:
+    description: Displays the world seed.
+    usage: /seed
+  save:
+    description: Save the server to disc.
+    usage: /save
+  list:
+    description: Lists online Players.
+    usage: /list
+#  locate:
+#    description: Finds stuff.
+#  locatebiome:
+#    description: Finds Biome.
+  kill:
+    description: Kills you.
+    usage: /kill
+  give:
+    description: Cheety Command
+    #usage: /give <item> [ammount]
+#  gamerule:
+#    description: Lets you set Gamerules
+  gamemode:
+    description: Change Gamemode
+    usage: /gamemode <gamemode>
+  enchant:
+    description: Apply enchants
+    usage: /enchant <Enchantment>
+#  effect:
+#    description: Give or Clear Effects
+  difficulty:
+    description: Change difficulty
+    usage: /difficulty (Easy | Hard | Normal |Ppeaceful)
+  heal:
+    description: For when you need it
+    usage: /heal
+  run:
+    description: Command for Connor :P
+    usage: you dont
+  authme:
+    description: Server Command
+    usage: idk
+  nose:
+    description: Noses you!
+    usage: /nose
