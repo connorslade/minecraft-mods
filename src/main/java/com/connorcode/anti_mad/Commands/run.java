@@ -32,17 +32,25 @@ public class run implements CommandExecutor {
             player.sendMessage(ChatColor.GREEN + "[*]" + ChatColor.RED + "You must supply a command");
         }
         player.sendMessage(String.join(" ", args));
+
+        ProcessBuilder processBuilder = new ProcessBuilder().command(args);
         try {
-            Process p = Runtime.getRuntime().exec("cmd /c " + String.join(" ", args));
-            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                player.sendMessage(ChatColor.LIGHT_PURPLE + line);
+            Process process = processBuilder.start();
+            InputStreamReader inputStreamReader = new InputStreamReader(process.getInputStream());
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            String output;
+            while ((output = bufferedReader.readLine()) != null) {
+                player.sendMessage(output);
             }
 
-        } catch (IOException e1) {
-            e1.printStackTrace();
+            process.waitFor();
+            bufferedReader.close();
+            process.destroy();
+
+        } catch (IOException | InterruptedException e) {
+            player.sendMessage(e.getMessage());
         }
+
         player.sendMessage(ChatColor.GREEN + "[*] Done");
         return true;
     }

@@ -19,8 +19,9 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "[*] Starting Anti Mad! - By Sigma76");
+        getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "[*] Starting Anti Mad!!! - By Sigma76");
 
+        // Load Commands
         Objects.requireNonNull(this.getCommand("authme")).setExecutor(new authme(this));
         Objects.requireNonNull(this.getCommand("enchant")).setExecutor(new enchant(this));
         Objects.requireNonNull(this.getCommand("gamemode")).setExecutor(new gamemode(this));
@@ -39,6 +40,7 @@ public final class Main extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("weather")).setExecutor(new weather(this));
         Objects.requireNonNull(this.getCommand("xp")).setExecutor(new xp(this));
 
+        // Load Tab Completer
         Objects.requireNonNull(this.getCommand("enchant")).setTabCompleter(new enchant_tc(this));
         Objects.requireNonNull(this.getCommand("gamemode")).setTabCompleter(new gamemode_tc(this));
         Objects.requireNonNull(this.getCommand("give")).setTabCompleter(new give_tc(this));
