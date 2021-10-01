@@ -1,7 +1,7 @@
 name: ColorChat
 version: ${project.version}
 main: com.connorcode.colorchat.Main
-api-version: 1.16
+api-version: 1.17
 prefix: ColorChat
 authors: [ Siigma76 ]
 description: Lets you add color to your Chat!

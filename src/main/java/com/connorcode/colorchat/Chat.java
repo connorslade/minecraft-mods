@@ -21,10 +21,13 @@ public class Chat implements Listener {
             e.setCancelled(true);
             Message = Message.replace(colorCodeChar, "§");
             Common.globalPlayerChatMessahe(playerName, Message);
+            return;
         }
-        else if (Message.startsWith(">")) {
+
+        if (Message.startsWith(">")) {
             e.setCancelled(true);
             Common.globalChatMessage(String.format("<%s> %s%s", playerName, ChatColor.GREEN, Message));
+            return;
         }
     }
 
