@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "quick-drop",
+  "version": "${version}",
+  "name": "Quick Drop",
+  "description": "",
+  "authors": [],
+  "contact": {
+    "website": "https://connorcode.com"
+  },
+  "license": "MIT",
+  "icon": "assets/quick-drop/icon.png",
+  "environment": "server",
+  "entrypoints": {
+    "main": [
+      "com.connorcode.quickdrop.QuickDrop"
+    ]
+  },
+  "mixins": [
+    "quick-drop.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.9",
+    "fabric": "*",
+    "minecraft": ">=1.19"
+  }
+}
