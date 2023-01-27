@@ -1,0 +1,7 @@
+name: MastodonLink
+version: '${version}'
+main: com.connorcode.mastodonlink.MastodonLink
+api-version: 1.19
+load: STARTUP
+authors: [ ConnorSlade ]
+website: https://connorcode.com
