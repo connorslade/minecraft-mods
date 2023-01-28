@@ -8,9 +8,14 @@ import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.net.http.WebSocket;
+import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.util.concurrent.CompletionStage;
 import java.util.logging.Level;
+import org.java_websocket.client.WebSocketClient;
+import org.java_websocket.handshake.ServerHandshake;
 
 import static com.connorcode.mastodonlink.MastodonLink.*;
 
@@ -61,6 +66,33 @@ public class Mastodon {
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    void initEventHandler() {
+        var uri = URI.create(config.bot.address().replace("http", "ws") + "/api/v1/streaming?access_token=" + token + "&stream=direct");
+        System.out.println(uri);
+
+        new WebSocketClient(uri) {
+            @Override
+            public void onOpen(ServerHandshake handshake) {
+                logger.log(Level.INFO, "Connected to websocket");
+            }
+
+            @Override
+            public void onMessage(String message) {
+                logger.log(Level.INFO, "Got message: " + message);
+            }
+
+            @Override
+            public void onClose(int code, String reason, boolean remote) {
+                logger.log(Level.INFO, "Disconnected from websocket (" + code + ") `" + reason + "` " + remote);
+            }
+
+            @Override
+            public void onError(Exception ex) {
+                logger.log(Level.SEVERE, "Error in websocket", ex);
+            }
+        }.connect();
     }
 
     private void refreshAcct() {

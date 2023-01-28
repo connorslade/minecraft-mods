@@ -22,8 +22,10 @@ public final class MastodonLink extends JavaPlugin {
         logger = getLogger();
         config = new Config(getConfig());
         database = new Database("data.db");
+
         mastadon = new Mastodon();
         mastadon.auth();
+        mastadon.initEventHandler();
 
         var pm = getServer().getPluginManager();
         pm.registerEvents(new PlayerConnect(), this);

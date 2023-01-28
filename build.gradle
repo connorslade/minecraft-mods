@@ -20,11 +20,19 @@ repositories {
 
 dependencies {
     compileOnly 'io.papermc.paper:paper-api:1.19.3-R0.1-SNAPSHOT'
+    implementation 'org.java-websocket:Java-WebSocket:1.5.3'
+    implementation 'javax.websocket:javax.websocket-all:1.1w'
 }
 
 tasks {
     runServer {
         minecraftVersion("1.19.3")
+    }
+
+    jar {
+        from {
+            configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+        }
     }
 }
 
