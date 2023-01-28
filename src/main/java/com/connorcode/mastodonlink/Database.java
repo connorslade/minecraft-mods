@@ -107,6 +107,14 @@ public class Database {
         });
     }
 
+    public void removePendingCode(String code) {
+        run(() -> {
+            var stmt = connection.prepareStatement("DELETE FROM pending WHERE code = ?");
+            stmt.setString(1, code);
+            stmt.executeUpdate();
+        });
+    }
+
     public void close() {
         run(() -> connection.close());
     }
