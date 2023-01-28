@@ -93,6 +93,18 @@ public class Mastodon {
         var account = notifJson.get("account").getAsJsonObject();
         var acct = Misc.mastodonAcct(account.get("acct").getAsString(), account.get("url").getAsString());
         logger.log(Level.INFO, String.format("Processing mention %s from %s", id, acct));
+
+        var host = URI.create(account.get("url").getAsString()).getHost();
+        if (config.requireHost != null && !host.equals(config.requireHost)) {
+            logger.log(Level.INFO, String.format("Ignoring mention from %s because it's not from %s", acct, config.requireHost));
+            request("POST", "statuses", Map.of(
+                    "status", String.format("@%s You cant link your account because its not hosted on %s.", acct, config.requireHost),
+                    "in_reply_to_id", id,
+                    "visibility", "direct"
+            ), (response, json) -> {});
+            return;
+        }
+
         var code = Misc.findCode(notifJson.get("status").getAsJsonObject().get("content").getAsString());
         if (code.isEmpty()) {
             logger.log(Level.INFO, String.format("No code found in mention %s", id));
@@ -115,7 +127,7 @@ public class Mastodon {
             return;
         }
 
-        logger.log(Level.INFO, String.format("Code %s found in pending codes", code.get()));
+        logger.log(Level.INFO, String.format("Code %s found", code.get()));
         request("POST", "statuses", Map.of(
                 "status", String.format("@%s You are now linked to %s.", acct, name.get()),
                 "in_reply_to_id", id,

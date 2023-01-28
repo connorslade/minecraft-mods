@@ -4,10 +4,12 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 public class Config {
     public final int verifyCodeLength;
+    public final String requireHost;
     public final Bot bot;
 
     Config(FileConfiguration config) {
         verifyCodeLength = config.getInt("verifyCodeLength", 6);
+        requireHost = config.getString("requireHost", null);
         bot = new Bot(config);
     }
 
