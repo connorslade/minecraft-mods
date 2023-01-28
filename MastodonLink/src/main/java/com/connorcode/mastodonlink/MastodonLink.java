@@ -15,7 +15,7 @@ public final class MastodonLink extends JavaPlugin {
     public static Logger logger;
     public static Config config;
     public static Database database;
-    public static Mastodon mastadon;
+    public static Mastodon mastodon;
     final File configFile = new File(getDataFolder() + File.separator + "config.yml");
 
     @Override
@@ -26,9 +26,9 @@ public final class MastodonLink extends JavaPlugin {
         config = new Config(getConfig());
         database = new Database("data.db");
 
-        mastadon = new Mastodon();
-        mastadon.auth();
-        mastadon.initEventHandler();
+        mastodon = new Mastodon();
+        mastodon.auth();
+        mastodon.initEventHandler();
 
         var pm = getServer().getPluginManager();
         pm.registerEvents(new PlayerConnect(), this);
@@ -37,11 +37,13 @@ public final class MastodonLink extends JavaPlugin {
         mastodonCommand.setExecutor(new MastodonCommand());
         mastodonCommand.setTabCompleter(new MastodonCompleter());
 
-        logger.log(Level.INFO, "Started successfully");
+        logger.log(Level.INFO, "Started successfully - v" + getDescription().getVersion());
+        logger.log(Level.INFO, "Made by Connor Slade | Sigma#8214");
     }
 
     @Override
     public void onDisable() {
         database.close();
+        mastodon.close();
     }
 }

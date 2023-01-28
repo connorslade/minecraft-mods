@@ -14,6 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledFuture;
 import java.util.logging.Level;
 
 import static com.connorcode.mastodonlink.MastodonLink.*;
@@ -21,6 +22,7 @@ import static com.connorcode.mastodonlink.MastodonLink.*;
 public class Mastodon {
     public String acct = "";
     String token;
+    ScheduledFuture<?> notifier;
 
     void auth() {
         var cfg = plugin.getConfig();
@@ -67,25 +69,27 @@ public class Mastodon {
         }
     }
 
+    void close() {
+        notifier.cancel(true);
+    }
+
     void initEventHandler() {
-        // get notifs
-        Executors.newSingleThreadScheduledExecutor()
+        notifier = Executors.newSingleThreadScheduledExecutor()
                 .scheduleAtFixedRate(this::getNewNotifications, 0, config.bot.refresh(),
                         java.util.concurrent.TimeUnit.SECONDS);
     }
 
     void getNewNotifications() {
-        request("GET", "notifications", Map.of("types", "mention direct"), (response, json) -> {
-            json.getAsJsonArray().forEach(notif -> {
-                var notifJson = notif.getAsJsonObject();
-                var id = notifJson.get("id").getAsString();
+        request("GET", "notifications", Map.of("types", "mention direct"),
+                (response, json) -> json.getAsJsonArray().forEach(notif -> {
+                    var notifJson = notif.getAsJsonObject();
+                    var id = notifJson.get("id").getAsString();
 
-                final var processTypes = List.of("direct", "mention");
-                if (processTypes.contains(notifJson.get("type").getAsString())) processMention(notifJson);
+                    final var processTypes = List.of("direct", "mention");
+                    if (processTypes.contains(notifJson.get("type").getAsString())) processMention(notifJson);
 
-                request("POST", String.format("notifications/%s/dismiss", id), Map.of(), (response1, json1) -> {});
-            });
-        });
+                    request("POST", String.format("notifications/%s/dismiss", id), Map.of(), (response1, json1) -> {});
+                }));
     }
 
     void processMention(JsonObject notifJson) {
@@ -107,10 +111,12 @@ public class Mastodon {
 
         var host = URI.create(account.get("url").getAsString()).getHost();
         if (config.requireHost != null && !host.equals(config.requireHost)) {
-            logger.log(Level.INFO, String.format("Ignoring mention from %s because it's not from %s", acct, config.requireHost));
+            logger.log(Level.INFO,
+                    String.format("Ignoring mention from %s because it's not from %s", acct, config.requireHost));
             database.removePendingCode(code.get());
             request("POST", "statuses", Map.of(
-                    "status", String.format("@%s You cant link your account because its not hosted on %s.", acct, config.requireHost),
+                    "status", String.format("@%s You cant link your account because its not hosted on %s.", acct,
+                            config.requireHost),
                     "in_reply_to_id", id,
                     "visibility", "direct"
             ), (response, json) -> {});
