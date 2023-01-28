@@ -1,6 +1,8 @@
 package com.connorcode.mastodonlink;
 
-import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.io.IOException;
 import java.net.URI;
@@ -8,14 +10,11 @@ import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.net.http.WebSocket;
-import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletionStage;
+import java.util.concurrent.Executors;
 import java.util.logging.Level;
-import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.handshake.ServerHandshake;
 
 import static com.connorcode.mastodonlink.MastodonLink.*;
 
@@ -50,14 +49,14 @@ public class Mastodon {
 
         try {
             var response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            var json = new Gson().fromJson(response.body(), Map.class);
-            if (json.containsKey("error")) {
+            var json = JsonParser.parseString(response.body()).getAsJsonObject();
+            if (json.has("error")) {
                 logger.log(Level.SEVERE,
                         String.format("Error getting token (%s) %s", json.get("error"), json.get("error_description")));
                 return;
             }
 
-            token = (String) json.get("access_token");
+            token = json.get("access_token").getAsString();
             cfg.set("bot.token", token);
             plugin.saveConfig();
 
@@ -69,35 +68,64 @@ public class Mastodon {
     }
 
     void initEventHandler() {
-        var uri = URI.create(config.bot.address().replace("http", "ws") + "/api/v1/streaming?access_token=" + token + "&stream=direct");
-        System.out.println(uri);
+        // get notifs
+        Executors.newSingleThreadScheduledExecutor()
+                .scheduleAtFixedRate(this::getNewNotifications, 0, config.bot.refresh(),
+                        java.util.concurrent.TimeUnit.SECONDS);
+    }
 
-        new WebSocketClient(uri) {
-            @Override
-            public void onOpen(ServerHandshake handshake) {
-                logger.log(Level.INFO, "Connected to websocket");
-            }
+    void getNewNotifications() {
+        request("GET", "notifications", Map.of("types", "mention direct"), (response, json) -> {
+            json.getAsJsonArray().forEach(notif -> {
+                var notifJson = notif.getAsJsonObject();
+                var id = notifJson.get("id").getAsString();
 
-            @Override
-            public void onMessage(String message) {
-                logger.log(Level.INFO, "Got message: " + message);
-            }
+                final var processTypes = List.of("direct", "mention");
+                if (processTypes.contains(notifJson.get("type").getAsString())) processMention(notifJson);
 
-            @Override
-            public void onClose(int code, String reason, boolean remote) {
-                logger.log(Level.INFO, "Disconnected from websocket (" + code + ") `" + reason + "` " + remote);
-            }
+                request("POST", String.format("notifications/%s/dismiss", id), Map.of(), (response1, json1) -> {});
+            });
+        });
+    }
 
-            @Override
-            public void onError(Exception ex) {
-                logger.log(Level.SEVERE, "Error in websocket", ex);
-            }
-        }.connect();
+    void processMention(JsonObject notifJson) {
+        var id = notifJson.get("status").getAsJsonObject().get("id").getAsString();
+        var account = notifJson.get("account").getAsJsonObject();
+        var acct = Misc.mastodonAcct(account.get("acct").getAsString(), account.get("url").getAsString());
+        logger.log(Level.INFO, String.format("Processing mention %s from %s", id, acct));
+        var code = Misc.findCode(notifJson.get("status").getAsJsonObject().get("content").getAsString());
+        if (code.isEmpty()) {
+            logger.log(Level.INFO, String.format("No code found in mention %s", id));
+            request("POST", "statuses", Map.of(
+                    "status", String.format("@%s I couldn't find a code in your message.", acct),
+                    "in_reply_to_id", id,
+                    "visibility", "direct"
+            ), (response, json) -> {});
+            return;
+        }
+
+        var name = database.confirmAccount(code.get(), acct, account.get("id").getAsString());
+        if (name.isEmpty()) {
+            logger.log(Level.INFO, String.format("Code %s not found in pending codes", code.get()));
+            request("POST", "statuses", Map.of(
+                    "status", String.format("@%s That code is not valid.", acct),
+                    "in_reply_to_id", id,
+                    "visibility", "direct"
+            ), (response, json) -> {});
+            return;
+        }
+
+        logger.log(Level.INFO, String.format("Code %s found in pending codes", code.get()));
+        request("POST", "statuses", Map.of(
+                "status", String.format("@%s You are now linked to %s.", acct, name.get()),
+                "in_reply_to_id", id,
+                "visibility", "direct"
+        ), (response, json) -> {});
     }
 
     private void refreshAcct() {
         request("GET", "accounts/verify_credentials", Map.of(), (response, json) -> {
-            acct = json.get("acct") + "@" + URI.create(config.bot.address()).getHost();
+            acct = json.getAsJsonObject().get("acct").getAsString() + "@" + URI.create(config.bot.address()).getHost();
             logger.log(Level.ALL, "Logged in as " + acct);
         });
     }
@@ -112,9 +140,9 @@ public class Mastodon {
 
         var response = client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
         response.thenAccept(res -> {
-            var json = new Gson().fromJson(res.body(), Map.class);
-            if (json.containsKey("error"))
-                logger.log(Level.SEVERE, "Mastodon error: " + json.get("error"));
+            var json = JsonParser.parseString(res.body());
+            if (json.isJsonObject() && json.getAsJsonObject().has("error"))
+                logger.log(Level.SEVERE, "Mastodon error: " + json.getAsJsonObject().get("error").getAsString());
 
             callback.call(res, json);
         });
@@ -140,6 +168,6 @@ public class Mastodon {
     }
 
     interface RequestCallback {
-        void call(HttpResponse<String> response, Map<?, ?> json);
+        void call(HttpResponse<String> response, JsonElement json);
     }
 }

@@ -26,9 +26,9 @@ public class Database {
             stmt.executeUpdate("PRAGMA journal_mode = WAL");
 
             stmt.executeUpdate(
-                    "CREATE TABLE IF NOT EXISTS users (uuid TEXT NOT NULL UNIQUE, mastadon TEXT NOT NULL UNIQUE, created INTEGER NOT NULL)");
+                    "CREATE TABLE IF NOT EXISTS users (uuid TEXT NOT NULL UNIQUE, mastadon TEXT NOT NULL, mastodonId TEXT NOT NULL UNIQUE, created INTEGER NOT NULL)");
             stmt.executeUpdate(
-                    "CREATE TABLE IF NOT EXISTS pending (uuid TEXT NOT NULL UNIQUE, code TEXT NOT NULL, created INTEGER NOT NULL)");
+                    "CREATE TABLE IF NOT EXISTS pending (uuid TEXT NOT NULL UNIQUE, name TEXT NOT NULL, code TEXT NOT NULL, created INTEGER NOT NULL)");
             stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -55,16 +55,42 @@ public class Database {
         }));
     }
 
+    public Optional<String> confirmAccount(String code, String mastodon, String mastodonId) {
+        return run(() -> {
+            var stmt = connection.prepareStatement("SELECT uuid, name FROM pending WHERE code = ?");
+            stmt.setString(1, code);
+            var res = stmt.executeQuery();
+            if (res.isClosed()) return Optional.empty();
+            var uuid = res.getString(1);
+            var name = res.getString(2);
+
+            var stmt2 = connection.prepareStatement("DELETE FROM pending WHERE code = ?");
+            stmt2.setString(1, code);
+            stmt2.executeUpdate();
+
+            var stmt3 = connection.prepareStatement(
+                    "INSERT INTO  users (uuid, mastadon, mastodonId, created) VALUES (?, ?, ?, ?)");
+            stmt3.setString(1, uuid);
+            stmt3.setString(2, mastodon);
+            stmt3.setString(3, mastodonId);
+            stmt3.setLong(4, System.currentTimeMillis());
+            stmt3.executeUpdate();
+            return Optional.of(name);
+        });
+    }
+
     public String createAuthCode(Player player) {
         var code = Misc.randomAscii(MastodonLink.config.verifyCodeLength);
         var epoch = System.currentTimeMillis();
 
         MastodonLink.logger.log(Level.INFO, String.format("Created verification code for %s", player.getName()));
         run(() -> {
-            var stmt = connection.prepareStatement("INSERT INTO pending (uuid, code, created) VALUES (?, ?, ?)");
+            var stmt =
+                    connection.prepareStatement("INSERT INTO pending (uuid, name, code, created) VALUES (?, ?, ?, ?)");
             stmt.setString(1, player.getUniqueId().toString());
-            stmt.setString(2, code);
-            stmt.setLong(3, epoch);
+            stmt.setString(2, player.getName());
+            stmt.setString(3, code);
+            stmt.setLong(4, epoch);
             stmt.execute();
         });
 

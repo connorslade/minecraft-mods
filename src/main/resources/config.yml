@@ -2,6 +2,7 @@ verificationCodeLen: 6
 
 # https://convo.casa/oauth/authorize?response_type=code&client_id=aseY9qmTweVcRDSLv-oRM-58LYRw8iyiCcbPkkTH9cM&redirect_uri=urn%3Aietf%3Awg%3Aoauth%3A2.0%3Aoob&scope=read%20write
 bot:
+  refresh: 30
   address: "https://convo.casa"
   auth: "cefOjCeZSo8gRgXNV20kpEzTAr8C9io2DkfAkXue3t4"
   id: "aseY9qmTweVcRDSLv-oRM-58LYRw8iyiCcbPkkTH9cM"
