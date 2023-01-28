@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 
 import static com.connorcode.mastodonlink.Consts.baseStyle;
+import static com.connorcode.mastodonlink.MastodonLink.mastadon;
 
 public class PlayerConnect implements Listener {
     @EventHandler
@@ -18,20 +19,19 @@ public class PlayerConnect implements Listener {
             // return;
         }
 
-        if (!MastodonLink.database.isPlayerLinked(e.getPlayer())) {
-            var pendingOption = MastodonLink.database.isPlayerPending(e.getPlayer());
-            var pending = pendingOption.orElseGet(() -> MastodonLink.database.createAuthCode(e.getPlayer()));
+        if (MastodonLink.database.isPlayerLinked(e.getPlayer())) return;
+        var pendingOption = MastodonLink.database.isPlayerPending(e.getPlayer());
+        var pending = pendingOption.orElseGet(() -> MastodonLink.database.createAuthCode(e.getPlayer()));
 
-            e.disallow(PlayerLoginEvent.Result.KICK_OTHER,
-                    Component.text("You must link your Mastodon account to play on this server!")
-                            .style(baseStyle.color(NamedTextColor.GREEN))
-                            .appendNewline()
-                            .append(Component.text("DM ").style(baseStyle.color(NamedTextColor.LIGHT_PURPLE)))
-                            .append(Component.text(MastodonLink.config.bot.address())
-                                    .style(baseStyle.color(NamedTextColor.AQUA)))
-                            .append(Component.text(" with your code ")
-                                    .style(baseStyle.color(NamedTextColor.LIGHT_PURPLE)))
-                            .append(Component.text(pending).style(baseStyle.color(NamedTextColor.AQUA))));
-        }
+        e.disallow(PlayerLoginEvent.Result.KICK_OTHER,
+                Component.text("You must link your Mastodon account to play on this server!")
+                        .style(baseStyle.color(NamedTextColor.GREEN))
+                        .appendNewline()
+                        .append(Component.text("DM ").style(baseStyle.color(NamedTextColor.LIGHT_PURPLE)))
+                        .append(Component.text(mastadon.acct)
+                                .style(baseStyle.color(NamedTextColor.AQUA)))
+                        .append(Component.text(" with your code ")
+                                .style(baseStyle.color(NamedTextColor.LIGHT_PURPLE)))
+                        .append(Component.text(pending).style(baseStyle.color(NamedTextColor.AQUA))));
     }
 }

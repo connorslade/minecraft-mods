@@ -11,9 +11,10 @@ public class Config {
         bot = new Bot(config);
     }
 
-    public record Bot(String address) {
+    public record Bot(String address, String clientId, String clientSecret, String auth) {
         Bot(FileConfiguration config) {
-            this(config.getString("bot.address"));
+            this(config.getString("bot.address"), config.getString("bot.id"), config.getString("bot.secret"),
+                    config.getString("bot.auth"));
         }
     }
 }

@@ -12,7 +12,7 @@ public final class MastodonLink extends JavaPlugin {
     public static Logger logger;
     public static Config config;
     public static Database database;
-    public static Mastadon mastadon;
+    public static Mastodon mastadon;
     final File configFile = new File(getDataFolder() + File.separator + "config.yml");
 
     @Override
@@ -22,7 +22,8 @@ public final class MastodonLink extends JavaPlugin {
         logger = getLogger();
         config = new Config(getConfig());
         database = new Database("data.db");
-        mastadon = new Mastadon();
+        mastadon = new Mastodon();
+        mastadon.auth();
 
         var pm = getServer().getPluginManager();
         pm.registerEvents(new PlayerConnect(), this);
