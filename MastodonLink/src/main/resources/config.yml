@@ -1,0 +1,19 @@
+# The length of the validation code
+# Don't change this after you have already generated a code
+verificationCodeLen: 6
+
+# The host that the bot will only accept account links from (Optional)
+# requireHost:
+
+#
+bot:
+  # Refresh interval in seconds
+  refresh: 30
+  # Mastodon instance address
+  address:
+  # User auth token (<INSTANCE>/oauth/authorize?response_type=code&client_id=<CLIENT-ID>&redirect_uri=urn%3Aietf%3Awg%3Aoauth%3A2.0%3Aoob&scope=read%20write)
+  auth:
+  # Client Key
+  id:
+  # Client Secret
+  secret:

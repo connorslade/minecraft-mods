@@ -1,0 +1,12 @@
+name: MastodonLink
+version: '${version}'
+main: com.connorcode.mastodonlink.MastodonLink
+api-version: 1.19
+load: STARTUP
+authors: [ ConnorSlade ]
+website: https://github.com/Basicprogrammer10/minecraft-plugins/tree/master/MastodonLink
+
+commands:
+  mastodon:
+    usage: /mastodon <playername>
+    description: Gets another player's Mastodon account
