@@ -13,7 +13,8 @@ public class Config {
 
     public record Bot(int refresh, String address, String clientId, String clientSecret, String auth) {
         Bot(FileConfiguration config) {
-            this(config.getInt("bot.refresh"), config.getString("bot.address"), config.getString("bot.id"), config.getString("bot.secret"), config.getString("bot.auth"));
+            this(config.getInt("bot.refresh"), config.getString("bot.address"), config.getString("bot.id"),
+                    config.getString("bot.secret"), config.getString("bot.auth"));
         }
     }
 }

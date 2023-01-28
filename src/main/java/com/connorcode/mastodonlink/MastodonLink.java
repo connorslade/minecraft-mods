@@ -1,9 +1,12 @@
 package com.connorcode.mastodonlink;
 
+import com.connorcode.mastodonlink.commands.MastodonCommand;
+import com.connorcode.mastodonlink.commands.MastodonCompleter;
 import com.connorcode.mastodonlink.events.PlayerConnect;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,6 +32,10 @@ public final class MastodonLink extends JavaPlugin {
 
         var pm = getServer().getPluginManager();
         pm.registerEvents(new PlayerConnect(), this);
+
+        var mastodonCommand = Objects.requireNonNull(getCommand("mastodon"));
+        mastodonCommand.setExecutor(new MastodonCommand());
+        mastodonCommand.setTabCompleter(new MastodonCompleter());
 
         logger.log(Level.INFO, "Started successfully");
     }

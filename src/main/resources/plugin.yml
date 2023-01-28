@@ -5,3 +5,8 @@ api-version: 1.19
 load: STARTUP
 authors: [ ConnorSlade ]
 website: https://connorcode.com
+
+commands:
+  mastodon:
+    usage: /mastodon <playername>
+    description: Gets another player's Mastodon account

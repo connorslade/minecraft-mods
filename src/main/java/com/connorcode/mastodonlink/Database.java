@@ -97,6 +97,16 @@ public class Database {
         return code;
     }
 
+    public Optional<String> getMastodon(Player player) {
+        return run(() -> {
+            var stmt = connection.prepareStatement("SELECT mastadon FROM users WHERE uuid = ?");
+            stmt.setString(1, player.getUniqueId().toString());
+            var res = stmt.executeQuery();
+            if (res.isClosed()) return Optional.empty();
+            return Optional.of(res.getString(1));
+        });
+    }
+
     public void close() {
         run(() -> connection.close());
     }
