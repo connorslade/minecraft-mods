@@ -1,0 +1,4 @@
+name: JSC-MC-Plugin
+version: ${project.version}
+main: com.connorcode.Main
+api-version: 1.16
