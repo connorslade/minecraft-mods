@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "id": "fast-doll",
+  "version": "${version}",
+  "name": "Fast Doll",
+  "description": "...",
+  "authors": [
+    "Connor Slade"
+  ],
+  "contact": {
+    "homepage": "https://github.com/Basicprogrammer10/SigmaUtils",
+    "sources": "https://github.com/Basicprogrammer10/SigmaUtils",
+    "issues": "https://github.com/Basicprogrammer10/SigmaUtils/issues"
+  },
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.connorcode.fastdoll.FastDoll"
+    ],
+    "modmenu": [
+      "com.connorcode.fastdoll.ModMenu"
+    ]
+  },
+  "mixins": [
+    "fast-doll.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.13",
+    "fabric": "*",
+    "minecraft": "1.19.4"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "Github": "https://github.com/Basicprogrammer10/",
+        "My Website": "https://connorcode.com"
+      }
+    }
+  }
+}
