@@ -3,7 +3,7 @@
   "id": "fast-doll",
   "version": "${version}",
   "name": "Fast Doll",
-  "description": "...",
+  "description": "Renders the inventory player modal at full speed.",
   "authors": [
     "Connor Slade"
   ],

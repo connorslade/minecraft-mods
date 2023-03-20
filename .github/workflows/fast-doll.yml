@@ -1,8 +1,11 @@
-name: build
+name: fast-doll::build
 on:
   push:
     paths:
-      - "/fast-doll/**"
+      - "fast-doll/**"
+
+env:
+  PROJECT: fast-doll
 
 jobs:
   build:
@@ -22,14 +25,19 @@ jobs:
           java-version: ${{ matrix.java }}
       - name: Chmod gradlew
         if: ${{ runner.os != 'Windows' }}
+        working-directory: ./${{ env.PROJECT }}
         run: chmod +x ./gradlew
       - name: Build
+        working-directory: ./${{ env.PROJECT }}
         run: ./gradlew build
+      - name: Echo Folder
+        if: ${{ runner.os != 'Windows' }}
+        run: ls -la
       - name: Upload Artifacts
         if: ${{ runner.os == 'Linux' && matrix.java == '17' }}
         uses: actions/upload-artifact@v2
         with:
           name: Artifacts
           path: |
-            build/libs/*.jar
-            !build/libs/*-sources.jar
+            ${{ env.PROJECT }}/build/libs/*.jar
+            !${{ env.PROJECT }}/build/libs/*-sources.jar
