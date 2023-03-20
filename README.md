@@ -1,3 +1,3 @@
-# minecraft-plugins
+# minecraft-mods
 
-Home to all my random minecraft plugins
+Home to all my random minecraft plugins and mods
