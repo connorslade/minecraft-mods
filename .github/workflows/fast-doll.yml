@@ -30,9 +30,6 @@ jobs:
       - name: Build
         working-directory: ./${{ env.PROJECT }}
         run: ./gradlew build
-      - name: Echo Folder
-        if: ${{ runner.os != 'Windows' }}
-        run: ls -la
       - name: Upload Artifacts
         if: ${{ runner.os == 'Linux' && matrix.java == '17' }}
         uses: actions/upload-artifact@v2
