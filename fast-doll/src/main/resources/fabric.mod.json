@@ -8,9 +8,9 @@
     "Connor Slade"
   ],
   "contact": {
-    "homepage": "https://github.com/Basicprogrammer10/SigmaUtils",
-    "sources": "https://github.com/Basicprogrammer10/SigmaUtils",
-    "issues": "https://github.com/Basicprogrammer10/SigmaUtils/issues"
+    "homepage": "https://connorcode.com",
+    "sources": "https://github.com/Basicprogrammer10/minecraft-mods/tree/master/fast-doll",
+    "issues": "https://github.com/Basicprogrammer10/minecraft-mods/issues"
   },
   "license": "MIT",
   "environment": "client",
