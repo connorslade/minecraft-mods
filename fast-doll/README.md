@@ -3,6 +3,7 @@ Requires: <kbd>[Minecraft 1.19.4](https://minecraft.fandom.com/wiki/Java_Edition
 
 In Minecraft the player model in the inventory is updated only 20 times a second (every tick), which makes the movement looks choppy / laggy.
 This mod makes it render at full speed, making the movement look smooth.
+If you want to download this mod you can on [Modrinth](https://modrinth.com/mod/fastdoll).
 
 When using with [Mod Menu](https://modrinth.com/mod/modmenu/version/6.1.0-rc.4) you can access a simple config screen that lets you enable and disable the mod.
 Note: The mod is enabled by default.
