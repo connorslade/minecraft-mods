@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "no-snowball",
+  "version": "${version}",
+  "name": "NoSnowball",
+  "description": "Module that allows you to disable the rendering and processing of snowballs.",
+  "authors": [
+    "Connor Slade"
+  ],
+  "contact": {
+    "repo": "https://github.com/MeteorDevelopment/meteor-addon-template"
+  },
+  "icon": "assets/template/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "meteor": [
+      "com.connorcode.noSnow.Addon"
+    ]
+  },
+  "mixins": [
+    "noSnowballs.mixins.json"
+  ],
+  "custom": {
+    "meteor-client:color": "225,25,25"
+  },
+  "depends": {
+    "java": ">=17",
+    "minecraft": ">=${mc_version}",
+    "meteor-client": "*"
+  }
+}
