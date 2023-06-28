@@ -1,6 +1,7 @@
 # minecraft-mods
 
 Home to all my random minecraft plugins and mods.
+Binaries for each project can be found under [releases](https://github.com/Basicprogrammer10/minecraft-mods/releases).
 
 | Mod                                                                                          | Loader                                                                                     | Description                                                                                                   |
 | -------------------------------------------------------------------------------------------- |--------------------------------------------------------------------------------------------| ------------------------------------------------------------------------------------------------------------- |
