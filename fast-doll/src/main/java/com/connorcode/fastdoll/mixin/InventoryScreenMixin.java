@@ -1,12 +1,11 @@
 package com.connorcode.fastdoll.mixin;
 
 import com.connorcode.fastdoll.FastDoll;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.gui.screen.recipebook.RecipeBookProvider;
-import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.PlayerScreenHandler;
@@ -26,8 +25,8 @@ public abstract class InventoryScreenMixin extends AbstractInventoryScreen<Playe
         super(screenHandler, playerInventory, text);
     }
 
-    @Inject(method = "drawEntity(Lnet/minecraft/client/util/math/MatrixStack;IIILorg/joml/Quaternionf;Lorg/joml/Quaternionf;Lnet/minecraft/entity/LivingEntity;)V", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;runAsFancy(Ljava/lang/Runnable;)V"), locals = LocalCapture.CAPTURE_FAILHARD)
-    private static void onDrawEntity(MatrixStack matrices, int x, int y, int size, Quaternionf quaternion, Quaternionf quaternion2, LivingEntity entity, CallbackInfo ci, double d, MatrixStack matrixStack, EntityRenderDispatcher entityRenderDispatcher, VertexConsumerProvider.Immediate immediate) {
+    @Inject(method = "drawEntity(Lnet/minecraft/client/gui/DrawContext;IIILorg/joml/Quaternionf;Lorg/joml/Quaternionf;Lnet/minecraft/entity/LivingEntity;)V", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;runAsFancy(Ljava/lang/Runnable;)V"), locals = LocalCapture.CAPTURE_FAILHARD)
+    private static void onDrawEntity(DrawContext context, int x, int y, int size, Quaternionf quaternionf, Quaternionf quaternionf2, LivingEntity entity, CallbackInfo ci, EntityRenderDispatcher entityRenderDispatcher) {
         if (!FastDoll.enabled) return;
 
         var ca = ((MinecraftClientAccessor) FastDoll.client);
@@ -41,14 +40,15 @@ public abstract class InventoryScreenMixin extends AbstractInventoryScreen<Playe
         entity.prevYaw = entity.getYaw();
         entity.prevPitch = entity.getPitch();
         entity.prevHeadYaw = entity.headYaw;
-        entityRenderDispatcher.render(entity, 0.0, 0.0, 0.0, 0.0F, tickDelta, matrices, immediate, 0xF000F0);
+        entityRenderDispatcher.render(entity, 0.0, 0.0, 0.0, 0.0F, tickDelta, context.getMatrices(),
+                context.getVertexConsumers(), 0xF000F0);
         entity.prevBodyYaw = h;
         entity.prevYaw = i;
         entity.prevPitch = j;
         entity.prevHeadYaw = k;
     }
 
-    @Redirect(method = "drawEntity(Lnet/minecraft/client/util/math/MatrixStack;IIILorg/joml/Quaternionf;Lorg/joml/Quaternionf;Lnet/minecraft/entity/LivingEntity;)V", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;runAsFancy(Ljava/lang/Runnable;)V"))
+    @Redirect(method = "drawEntity(Lnet/minecraft/client/gui/DrawContext;IIILorg/joml/Quaternionf;Lorg/joml/Quaternionf;Lnet/minecraft/entity/LivingEntity;)V", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;runAsFancy(Ljava/lang/Runnable;)V"))
     private static void onRender(Runnable runnable) {
         if (!FastDoll.enabled) runnable.run();
     }

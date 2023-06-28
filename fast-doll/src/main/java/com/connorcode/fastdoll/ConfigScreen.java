@@ -1,8 +1,8 @@
 package com.connorcode.fastdoll;
 
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 
 import static com.connorcode.fastdoll.FastDoll.VERSION;
@@ -29,13 +29,13 @@ public class ConfigScreen extends Screen {
 
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        renderBackground(matrices);
-        super.render(matrices, mouseX, mouseY, delta);
+    public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
+        renderBackground(drawContext);
+        super.render(drawContext, mouseX, mouseY, delta);
 
         final var text = "§l§nFastDoll v" + VERSION;
-        textRenderer.draw(matrices, text, width / 2f - textRenderer.getWidth(text) / 2f,
-                height / 3f - textRenderer.fontHeight / 2f - 25, 0xffffffff);
+        drawContext.drawText(textRenderer, text, (int) (width / 2f - textRenderer.getWidth(text) / 2f),
+                (int) (height / 3f - textRenderer.fontHeight / 2f - 25), 0xffffffff, false);
     }
 
     @Override
