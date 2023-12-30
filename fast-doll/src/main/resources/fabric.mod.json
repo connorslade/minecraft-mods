@@ -29,12 +29,12 @@
   "depends": {
     "fabricloader": ">=0.14.13",
     "fabric": "*",
-    "minecraft": "1.20.1"
+    "minecraft": "1.20.2"
   },
   "custom": {
     "modmenu": {
       "links": {
-        "Github": "https://github.com/Basicprogrammer10/",
+        "Github": "https://github.com/Basicprogrammer10/minecraft-mods/tree/master/fast-doll",
         "My Website": "https://connorcode.com"
       }
     }
