@@ -5,18 +5,18 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtIo;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 
 public class FastDoll implements ClientModInitializer {
     public static final String VERSION = "1.2";
     public static final MinecraftClient client = MinecraftClient.getInstance();
-    public static final File config = client.runDirectory.toPath().resolve("config/fast-doll.nbt").toFile();
+    public static final Path config = client.runDirectory.toPath().resolve("config/fast-doll.nbt");
     public static boolean enabled = true;
 
     @Override
     public void onInitializeClient() {
-        if (!config.exists()) {
+        if (!config.toFile().exists()) {
             saveConfig();
             return;
         }
