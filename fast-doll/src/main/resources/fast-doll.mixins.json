@@ -5,8 +5,7 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [],
   "client": [
-    "InventoryScreenMixin",
-    "MinecraftClientAccessor"
+    "InventoryScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
