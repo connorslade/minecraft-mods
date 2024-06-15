@@ -26,8 +26,7 @@ public abstract class InventoryScreenMixin extends AbstractInventoryScreen<Playe
     private static void onDrawEntity(EntityRenderDispatcher entityRenderDispatcher, LivingEntity entity, DrawContext context, CallbackInfo ci) {
         if (!FastDoll.enabled) return;
 
-        var ca = ((MinecraftClientAccessor) FastDoll.client);
-        var tickDelta = FastDoll.client.isPaused() ? ca.getPausedTickDelta() : ca.getRenderTickCounter().tickDelta;
+        var tickDelta = FastDoll.client.getRenderTickCounter().getTickDelta(FastDoll.client.isPaused());
 
         float h = entity.prevBodyYaw;
         float i = entity.prevYaw;
