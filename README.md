@@ -16,14 +16,14 @@ Binaries for each project can be found under [releases](https://github.com/conno
 These are projects that are no longer supported.
 These are awful, so it's ~~probably~~ definitely best to just _not use them_.
 
-| Mod                                                                                   | Loader                                                  | Description                                                                                   |
-| ------------------------------------------------------------------------------------- | ------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| [AntiMad](https://github.com/connorslade/minecraft-mods/tree/master/AntiMad)          | <kbd>[1.16.5][1.16.5]</kbd> <kbd>[Paper][bukkit]</kbd>  | Reimplements lots of Minecraft's base commands to keep you from shooting yourself in the foot |
-| [ColorChat](https://github.com/connorslade/minecraft-mods/tree/master/ColorChat)      | <kbd>[1.17.1][1.17.1]</kbd> <kbd>[Spigot][bukkit]</kbd> | Lets players use formatting codes in chat                                                     |
-| [JSC-MC](https://github.com/connorslade/minecraft-mods/tree/master/JSC-MC)            | <kbd>[1.16.5][1.16.5]</kbd> <kbd>[Paper][bukkit]</kbd>  | A plugin for a SMP I was running                                                              |
-| [NoseBot](https://github.com/connorslade/minecraft-mods/tree/master/NoseBot)          | <kbd>[1.16.5][1.16.5]</kbd> <kbd>[Spigot][bukkit]</kbd> | I don't even know how to explain this without sounding insane                                 |
-| [ShowLag](https://github.com/connorslade/minecraft-mods/tree/master/ShowLag)          | <kbd>[1.16.5][1.16.5]</kbd> <kbd>[Paper][bukkit]</kbd>  | Lets you view the TPS of your server                                                          |
-| [SpawnPlugin](https://github.com/connorslade/minecraft-mods/tree/master/Spawn-Plugin) | <kbd>[1.16.5][1.16.5]</kbd> <kbd>[Paper][bukkit]</kbd>  | Makes it easy to warp to spawn                                                                |
+| Mod                                                                                          | Loader                                                  | Description                                                                                   |
+| -------------------------------------------------------------------------------------------- | ------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| [AntiMad](https://github.com/connorslade/minecraft-mods/tree/master/legacy/AntiMad)          | <kbd>[1.16.5][1.16.5]</kbd> <kbd>[Paper][bukkit]</kbd>  | Reimplements lots of Minecraft's base commands to keep you from shooting yourself in the foot |
+| [ColorChat](https://github.com/connorslade/minecraft-mods/tree/master/legacy/ColorChat)      | <kbd>[1.17.1][1.17.1]</kbd> <kbd>[Spigot][bukkit]</kbd> | Lets players use formatting codes in chat                                                     |
+| [JSC-MC](https://github.com/connorslade/minecraft-mods/tree/master/legacy/JSC-MC)            | <kbd>[1.16.5][1.16.5]</kbd> <kbd>[Paper][bukkit]</kbd>  | A plugin for a SMP I was running                                                              |
+| [NoseBot](https://github.com/connorslade/minecraft-mods/tree/master/legacy/NoseBot)          | <kbd>[1.16.5][1.16.5]</kbd> <kbd>[Spigot][bukkit]</kbd> | I don't even know how to explain this without sounding insane                                 |
+| [ShowLag](https://github.com/connorslade/minecraft-mods/tree/master/legacy/ShowLag)          | <kbd>[1.16.5][1.16.5]</kbd> <kbd>[Paper][bukkit]</kbd>  | Lets you view the TPS of your server                                                          |
+| [SpawnPlugin](https://github.com/connorslade/minecraft-mods/tree/master/legacy/Spawn-Plugin) | <kbd>[1.16.5][1.16.5]</kbd> <kbd>[Paper][bukkit]</kbd>  | Makes it easy to warp to spawn                                                                |
 
 <!-- LINKS -->
 
