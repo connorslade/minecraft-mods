@@ -1,7 +1,9 @@
 package com.connorcode.meteorclickanchor;
 
 import meteordevelopment.meteorclient.events.entity.player.PlaceBlockEvent;
+import meteordevelopment.meteorclient.events.game.GameLeftEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
+import meteordevelopment.meteorclient.settings.DoubleSetting;
 import meteordevelopment.meteorclient.settings.IntSetting;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
@@ -10,6 +12,7 @@ import meteordevelopment.meteorclient.utils.player.InvUtils;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Items;
+import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.Direction;
@@ -36,8 +39,8 @@ public class _Module extends Module {
             .add(new IntSetting.Builder().name("Detonate Delay Variation")
                     .description("Number of ticks to randomly add or subtract from the detonate delay.").defaultValue(0)
                     .min(0).sliderMax(20).build());
-    private final Setting<Integer> maxRange = settings.getDefaultGroup()
-            .add(new IntSetting.Builder().name("Max Range")
+    private final Setting<Double> maxRange = settings.getDefaultGroup()
+            .add(new DoubleSetting.Builder().name("Max Range")
                     .description("The maximum distance the anchor can be from the player.").defaultValue(5).min(0)
                     .sliderMax(20).build());
 
@@ -50,6 +53,15 @@ public class _Module extends Module {
 
     @Override
     public void onActivate() {
+        reset();
+    }
+
+    @EventHandler
+    void onGameLeave(GameLeftEvent event) {
+        reset();
+    }
+
+    private void reset() {
         this.tasks.clear();
         this.tick = 0;
     }
@@ -75,13 +87,14 @@ public class _Module extends Module {
             var glowstone = InvUtils.findInHotbar(Items.GLOWSTONE);
             if (!glowstone.found()) {
                 error("No glowstone found in hotbar");
+                this.tasks.clear();
                 return;
             }
 
             var hit = getHitResult(event);
             if (hit == null) return;
 
-            mc.player.setSneaking(false);
+           ensureNotSneaking();
             if (glowstone.isOffhand()) {
                 mc.interactionManager.interactBlock(mc.player, Hand.OFF_HAND, hit);
             } else {
@@ -96,7 +109,7 @@ public class _Module extends Module {
             var hit = getHitResult(event);
             if (hit == null) return;
 
-            mc.player.setSneaking(false);
+            ensureNotSneaking();
             mc.interactionManager.interactBlock(mc.player, Hand.MAIN_HAND, hit);
         }));
     }
@@ -112,6 +125,13 @@ public class _Module extends Module {
         }
 
         return hit;
+    }
+
+    private void ensureNotSneaking() {
+        assert mc.player != null;
+        if (!mc.player.isSneaking()) return;
+        mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.RELEASE_SHIFT_KEY));
+        mc.player.input.sneaking = false;
     }
 
     static class ScheduledTask {

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "id": "meteor-clickanchor",
+  "id": "clickanchor",
   "version": "${version}",
-  "name": "Meteor-ClickAnchor",
+  "name": "Click Anchor",
   "description": "",
   "authors": [
     "Connor Slade"
