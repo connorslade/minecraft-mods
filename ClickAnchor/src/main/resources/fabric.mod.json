@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "clickanchor",
+  "version": "${version}",
+  "name": "Click Anchor",
+  "description": "",
+  "authors": [
+    "Connor Slade"
+  ],
+  "contact": {
+    "repo": "https://github.com/connorslade/Meteor-ClickAnchor"
+  },
+  "license": "All-Rights-Reserved",
+  "icon": "assets/meteor-clickanchor/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "meteor": [
+      "com.connorcode.meteorclickanchor.Main"
+    ]
+  },
+  "mixins": [
+    "meteor-clickanchor.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
