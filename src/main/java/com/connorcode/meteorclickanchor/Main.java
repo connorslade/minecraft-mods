@@ -1,12 +1,13 @@
 package com.connorcode.meteorclickanchor;
 
 import meteordevelopment.meteorclient.addons.MeteorAddon;
+import meteordevelopment.meteorclient.systems.modules.Modules;
 
 public class Main extends MeteorAddon {
 
     @Override
     public void onInitialize() {
-        System.out.println("Meteor Click Anchor initialized!");
+        Modules.get().add(new _Module());
     }
 
     @Override
