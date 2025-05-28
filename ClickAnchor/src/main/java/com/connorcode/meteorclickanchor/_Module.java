@@ -48,7 +48,7 @@ public class _Module extends Module {
     private long tick = 0;
 
     public _Module() {
-        super(Categories.Combat, "Click Anchor", "Automatically charges and detonates respawn anchors when places.");
+        super(Categories.Combat, "Click Anchor", "Automatically charges and detonates respawn anchors when placed.");
     }
 
     @Override
