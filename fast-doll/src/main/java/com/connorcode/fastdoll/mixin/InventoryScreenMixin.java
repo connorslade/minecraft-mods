@@ -18,21 +18,21 @@ public abstract class InventoryScreenMixin implements RecipeBookProvider {
     private static void onDrawEntity(EntityRenderDispatcher entityRenderDispatcher, LivingEntity entity, DrawContext context, VertexConsumerProvider vertexConsumers, CallbackInfo ci) {
         if (!FastDoll.enabled) return;
 
-        var tickDelta = FastDoll.client.getRenderTickCounter().getTickDelta(FastDoll.client.isPaused());
+        var tickDelta = FastDoll.client.getRenderTickCounter().getTickProgress(false);
 
-        float h = entity.prevBodyYaw;
-        float i = entity.prevYaw;
-        float j = entity.prevPitch;
-        float k = entity.prevHeadYaw;
-        entity.prevBodyYaw = entity.bodyYaw;
-        entity.prevYaw = entity.getYaw();
-        entity.prevPitch = entity.getPitch();
-        entity.prevHeadYaw = entity.headYaw;
+        float h = entity.lastBodyYaw;
+        float i = entity.lastYaw;
+        float j = entity.lastPitch;
+        float k = entity.lastHeadYaw;
+        entity.lastBodyYaw = entity.bodyYaw;
+        entity.lastYaw = entity.getYaw();
+        entity.lastPitch = entity.getPitch();
+        entity.lastHeadYaw = entity.headYaw;
         entityRenderDispatcher.render(entity, 0.0, 0.0, 0.0, tickDelta, context.getMatrices(), vertexConsumers, 0xF000F0);
-        entity.prevBodyYaw = h;
-        entity.prevYaw = i;
-        entity.prevPitch = j;
-        entity.prevHeadYaw = k;
+        entity.lastBodyYaw = h;
+        entity.lastYaw = i;
+        entity.lastPitch = j;
+        entity.lastHeadYaw = k;
         ci.cancel();
     }
 }

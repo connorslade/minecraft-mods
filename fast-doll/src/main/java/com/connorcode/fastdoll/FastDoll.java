@@ -42,6 +42,6 @@ public class FastDoll implements ClientModInitializer {
             throw new RuntimeException(e);
         }
 
-        enabled = !in.contains("enabled") || in.getBoolean("enabled");
+        enabled = !in.contains("enabled") || in.getBoolean("enabled").orElse(false);
     }
 }
