@@ -5,7 +5,7 @@ Binaries for each project can be found under [releases](https://github.com/conno
 
 | Mod                          | Loader                                                                                     | Description                                                                                                   |
 | ---------------------------- |--------------------------------------------------------------------------------------------| ------------------------------------------------------------------------------------------------------------- |
-| [fast-doll](fast-doll)       | <kbd>[1.21.8][1.21.8]</kbd> <kbd>[Fabric][fabric]</kbd>                                    | By default, the player model in the inventory is rendered at only 20FPS, this mod renders it at full speed.   |
+| [fast-doll](fast-doll)       | <kbd>[1.21.9][1.21.9]</kbd> <kbd>[Fabric][fabric]</kbd>                                    | By default, the player model in the inventory is rendered at only 20FPS, this mod renders it at full speed.   |
 | [ClickAnchor](ClickAnchor)   | <kbd>[1.21.1][1.21.1]</kbd> <kbd>[Fabric][fabric]</kbd> <kbd>[Meteor Client][meteor]</kbd> | Automatically charges and detonates placed respawn anchors.                                                   |
 | [MastodonLink](MastodonLink) | <kbd>[1.19.3][1.19.3]</kbd> <kbd>[Bukkit][bukkit]</kbd>                                    | A plugin that requires players to link their mastodon account before playing.                                 |
 | [noSnowball](noSnowball)     | <kbd>[1.19.1][1.19.1]</kbd> <kbd>[Fabric][fabric]</kbd> <kbd>[Meteor Client][meteor]</kbd> | A module for Meteor Client that removes snowballs from the game. Useful for snowman lag machines.             |
@@ -30,7 +30,7 @@ These are awful, so it's ~~probably~~ definitely best to just _not use them_.
 [fabric]: https://fabricmc.net
 [bukkit]: https://bukkit.org
 [meteor]: https://github.com/MeteorDevelopment/meteor-client
-[1.21.8]: https://minecraft.wiki/w/Java_Edition_1.21.8
+[1.21.9]: https://minecraft.wiki/w/Java_Edition_1.21.9
 [1.21.1]: https://minecraft.wiki/w/Java_Edition_1.21.1
 [1.21]: https://minecraft.wiki/w/Java_Edition_1.21
 [1.20.2]: https://minecraft.wiki/w/Java_Edition_1.20.2

@@ -27,9 +27,9 @@
     "fast-doll.mixins.json"
   ],
   "depends": {
-    "fabricloader": "*",
+    "fabricloader": ">=${loader_version}",
     "fabric": "*",
-    "minecraft": "1.21.8"
+    "minecraft": "${minecraft_version}"
   },
   "custom": {
     "modmenu": {
