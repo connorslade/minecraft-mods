@@ -1,17 +1,17 @@
 package com.connorcode.fastdoll;
 
 import net.fabricmc.api.ClientModInitializer;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.client.Minecraft;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtIo;
 
 import java.io.IOException;
 import java.nio.file.Path;
 
 public class FastDoll implements ClientModInitializer {
-    public static final String VERSION = "1.17";
-    public static final MinecraftClient client = MinecraftClient.getInstance();
-    public static final Path configDir = client.runDirectory.toPath().resolve("config");
+    public static final String VERSION = "1.18";
+    public static final Minecraft client = Minecraft.getInstance();
+    public static final Path configDir = client.gameDirectory.toPath().resolve("config");
     public static final Path config = configDir.resolve("fastdoll.json");
     public static boolean enabled = true;
 
@@ -23,7 +23,7 @@ public class FastDoll implements ClientModInitializer {
     }
 
     void saveConfig() {
-        var out = new NbtCompound();
+        var out = new CompoundTag();
         out.putString("info", "fast-doll v" + VERSION);
         out.putBoolean("enabled", enabled);
         try {
@@ -34,7 +34,7 @@ public class FastDoll implements ClientModInitializer {
     }
 
     void loadConfig() {
-        NbtCompound in;
+        CompoundTag in;
         try {
             in = NbtIo.read(config);
             assert in != null;

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "fast-doll",
-  "version": "${version}",
+  "version": "1.18",
   "name": "Fast Doll",
   "description": "Renders the inventory player modal at full speed.",
   "authors": [
@@ -27,9 +27,9 @@
     "fast-doll.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=${loader_version}",
-    "fabric": "*",
-    "minecraft": "${minecraft_version}"
+    "fabricloader": ">=0.19.3",
+    "fabric-api": "*",
+    "minecraft": "26.1"
   },
   "custom": {
     "modmenu": {
