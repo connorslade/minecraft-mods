@@ -12,7 +12,7 @@ jobs:
   build:
     strategy:
       matrix:
-        java: [21]
+        java: [25]
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
@@ -33,7 +33,7 @@ jobs:
         working-directory: ./${{ env.PROJECT }}
         run: ./gradlew build
       - name: Upload Artifacts
-        if: ${{ runner.os == 'Linux' && matrix.java == '17' }}
+        if: ${{ runner.os == 'Linux' }}
         uses: actions/upload-artifact@v4
         with:
           name: Artifacts
